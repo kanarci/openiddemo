@@ -28,6 +28,7 @@ public class OpenIDServlet extends HttpServlet {
 		openIdProviders.put("MyOpenId.com", "myopenid.com");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		UserService userService = UserServiceFactory.getUserService();
@@ -37,13 +38,16 @@ public class OpenIDServlet extends HttpServlet {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
 
+		out.write("<h1 align=\"center\">OpenID demo</h1>");
+		out.write("<h6 align=\"center\">servlet</h6>");
+		out.write("<table align=\"center\"><tr><td>");
+
 		if (user != null) {
-			out.print("Hello <i>" + user.getNickname() + "</i>!");
+			out.print("Hello <i>" + user.getNickname() + "</i>! ");
 			out.print("[<a href=\""
 					+ userService.createLogoutURL(req.getRequestURI())
 					+ "\">sign out</a>]");
-			out.print("<br> Your auth. domain is : "
-					+ user.getAuthDomain());
+			out.print("<br> Your auth. domain is : " + user.getAuthDomain());
 			out.print("<br> Your federal identity is : "
 					+ user.getFederatedIdentity());
 			out.print("<br> Your user id is : " + user.getUserId());
@@ -59,6 +63,7 @@ public class OpenIDServlet extends HttpServlet {
 						+ "</a>] ");
 			}
 		}
+		out.write("</td></tr></table>");
 
 	}
 }
